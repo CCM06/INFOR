@@ -1,0 +1,634 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Briefing - Seu Espaço dos Sonhos</title>
+    <style>
+        :root {
+            --verde-primario: #2e8b57;
+            --verde-secundario: #3cb371;
+            --verde-claro: #98fb98;
+            --marrom: #8b4513;
+            --bege: #f5f5dc;
+            --branco: #fff;
+            --cinza: #f8f8f8;
+            --sombra: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --borda: 1px solid #e0e0e0;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: var(--cinza);
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--verde-primario), var(--verde-secundario));
+            color: var(--branco);
+            padding: 40px 0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--sombra);
+        }
+        .logo {
+            float: left;
+            width: 100px;
+            height: 100px;
+            background: var(--branco);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-weight: bold;
+            color: var(--verde-primario);
+            text-align: center;
+            padding: 10px;
+            font-size: 16px;
+            animation: pulse 2s infinite;
+            border: 3px solid var(--verde-primario);
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-section {
+            background-color: var(--branco);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: var(--sombra);
+            border-left: 4px solid var(--verde-primario);
+        }
+        
+        h2 {
+            color: var(--verde-primario);
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+        
+        h2::before {
+            content: "🌱";
+            margin-right: 12px;
+            font-size: 1.8rem;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: #555;
+            font-size: 1.05rem;
+        }
+        
+        .required::after {
+            content: " *";
+            color: #e74c3c;
+        }
+        
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: var(--borda);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background-color: #fdfdfd;
+        }
+        
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--verde-primario);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.2);
+            background-color: var(--branco);
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .image-section {
+            margin: 25px 0;
+        }
+        
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .image-option {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 10px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            border: 2px solid transparent;
+        }
+        
+        .image-option img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .image-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .image-option.selected {
+            border-color: var(--verde-primario);
+            box-shadow: 0 0 0 3px var(--verde-claro);
+        }
+        
+        .image-option .checkmark {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--verde-primario);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 2;
+        }
+        
+        .image-option.selected .checkmark {
+            opacity: 1;
+        }
+        
+        .image-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            margin: 15px 0;
+        }
+        
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            background: #f9f9f9;
+            padding: 12px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        
+        .checkbox-option:hover {
+            background: #f0f0f0;
+        }
+        
+        .checkbox-option input {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+        }
+        
+        .btn-submit {
+            background: linear-gradient(135deg, var(--verde-primario), var(--verde-secundario));
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            max-width: 350px;
+            margin: 40px auto;
+            transition: all 0.3s;
+            font-weight: 600;
+            box-shadow: var(--sombra);
+            text-align: center;
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(46, 139, 87, 0.3);
+            background: linear-gradient(135deg, var(--verde-secundario), var(--verde-primario));
+        }
+        
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+        
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #ddd, transparent);
+            margin: 30px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .image-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            header {
+                padding: 30px 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .image-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .form-section {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            .logo {
+                width: 70px;
+                height: 70px;
+                font-size: 12px;
+            }
+        }
+        
+        /* Animações */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-section {
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .form-section:nth-child(1) { animation-delay: 0.1s; }
+        .form-section:nth-child(2) { animation-delay: 0.2s; }
+        .form-section:nth-child(3) { animation-delay: 0.3s; }
+        .form-section:nth-child(4) { animation-delay: 0.4s; }
+        .form-section:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">Studio<br>Clevs+</div>
+            <h1>Seu Espaço dos Sonhos</h1>
+            <p class="subtitle">Nos conte sobre seu espaço ideal e o que você ama (ou não ama) atualmente</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <form id="briefingForm">
+            <!-- Seção 1: Dados do Cliente -->
+            <section class="form-section">
+                <h2>Seus Dados</h2>
+                
+                <div class="two-columns">
+                    <div class="form-group">
+                        <label for="nome" class="required">Nome completo</label>
+                        <input type="text" id="nome" name="nome" required placeholder="Seu nome">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="telefone" class="required">Telefone</label>
+                        <input type="tel" id="telefone" name="telefone" required placeholder="(00) 00000-0000">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="endereco">Endereço do imóvel (opcional)</label>
+                    <input type="text" id="endereco" name="endereco" placeholder="Onde será o projeto">
+                </div>
+            </section>
+            
+            <!-- Seção 2: Estilo Preferido -->
+            <section class="form-section">
+                <h2>Estilo que Você Ama</h2>
+                
+                <div class="form-group">
+                    <p>Selecione todas as imagens que representam o estilo que você gosta:</p>
+                    <div class="image-grid">
+                        <div class="image-option" onclick="toggleImageSelection(this, 'estilo_gosta')">
+                            <img src="img 1.JPG" alt="Jardim Moderno">
+                            <span class="checkmark">✓</span>
+                            <div class="image-label">1</div>
+                        </div>
+                        <div class="image-option" onclick="toggleImageSelection(this, 'estilo_gosta')">
+                            <img src="img 2_2368.jpg" alt="Jardim Rústico">
+                            <span class="checkmark">✓</span>
+                            <div class="image-label">2</div>
+                        </div>
+                        <div class="image-option" onclick="toggleImageSelection(this, 'estilo_gosta')">
+                            <img src="img 3.JPG" alt="Jardim Tropical">
+                            <span class="checkmark">✓</span>
+                            <div class="image-label">3</div>
+                        </div>
+                        <div class="image-option" onclick="toggleImageSelection(this, 'estilo_gosta')">
+                            <img src="img 4.JPG" alt="Jardim Japonês">
+                            <span class="checkmark">✓</span>
+                            <div class="image-label">4</div>
+                        </div>
+                        <div class="image-option" onclick="toggleImageSelection(this, 'estilo_gosta')">
+                            <img src="img 5.JPG" alt="Jardim Mediterrâneo">
+                            <span class="checkmark">✓</span>
+                            <div class="image-label">5</div>
+                        </div>
+                        <div class="image-option" onclick="toggleImageSelection(this, 'estilo_gosta')">
+                            <img src="img 6.JPG" alt="Jardim Campestre">
+                            <span class="checkmark">✓</span>
+                            <div class="image-label">6</div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="estilo_gosta" name="estilo_gosta">
+                </div>
+                
+                <div class="form-group">
+                    <label for="descricao_estilo">Descreva com suas palavras o que você ama nestes estilos:</label>
+                    <textarea id="descricao_estilo" name="descricao_estilo" placeholder="Ex.: Adoro a simplicidade e as linhas retas do estilo moderno, mas também gosto de elementos naturais..."></textarea>
+                </div>
+            </section>
+            
+            <!-- Seção 3: Elementos que Agradam -->
+            <section class="form-section">
+                <h2>Elementos que Você Adora</h2>
+                
+                <div class="form-group">
+                    <p>Marque os elementos que te trazem alegria e que você gostaria no seu espaço:</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-option"><input type="checkbox" name="elementos_gosta" value="Flores coloridas"> Flores coloridas</label>
+                        <label class="checkbox-option"><input type="checkbox" name="elementos_gosta" value="Árvores frutíferas"> Árvores frutíferas</label>
+                        <label class="checkbox-option"><input type="checkbox" name="elementos_gosta" value="Plantas aromáticas"> Plantas aromáticas</label>
+                        <label class="checkbox-option"><input type="checkbox" name="elementos_gosta" value="Jardim vertical"> Jardim vertical</label>
+                        <label class="checkbox-option"><input type="checkbox" name="elementos_gosta" value="Fonte de água"> Fonte de água</label>
+                        <label class="checkbox-option"><input type="checkbox" name="elementos_gosta" value="Caminhos de pedra"> Caminhos de pedra</label>
+                        <label class="checkbox-option"><input type="checkbox" name="elementos_gosta" value="Espaço para leitura"> Espaço para leitura</label>
+                        <label class="checkbox-option"><input type="checkbox" name="elementos_gosta" value="Área para crianças"> Área para crianças</label>
+                        <label class="checkbox-option"><input type="checkbox" name="elementos_gosta" value="Iluminação especial"> Iluminação especial</label>
+                        <label class="checkbox-option"><input type="checkbox" name="elementos_gosta" value="Móveis de jardim"> Móveis de jardim</label>
+                        <label class="checkbox-option"><input type="checkbox" name="elementos_gosta" value="Pérgola"> Pérgola</label>
+                        <label class="checkbox-option"><input type="checkbox" name="elementos_gosta" value="Outros"> Outros</label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="outros_elementos_gosta">Algum outro elemento especial que você ama e gostaria de incluir?</label>
+                    <textarea id="outros_elementos_gosta" name="outros_elementos_gosta" placeholder="Ex.: Adoro o som da água corrente, gostaria de um pequeno lago..."></textarea>
+                </div>
+            </section>
+            
+            <!-- Seção 4: Problemas e Desafios -->
+            <section class="form-section">
+                <h2>O que Não Está Funcionando</h2>
+                
+                <div class="form-group">
+                    <label for="problemas_atual">Quais são os principais problemas do seu espaço atual?</label>
+                    <textarea id="problemas_atual" name="problemas_atual" placeholder="Ex.: O jardim atual exige muita manutenção, não temos privacidade, o espaço não é aproveitado..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <p>O que te incomoda no seu jardim atual? (marque todos que se aplicam)</p>
+                    <div class="checkbox-group">
+                        <label class="checkbox-option"><input type="checkbox" name="incomoda" value="Muita manutenção"> Muita manutenção</label>
+                        <label class="checkbox-option"><input type="checkbox" name="incomoda" value="Falta de privacidade"> Falta de privacidade</label>
+                        <label class="checkbox-option"><input type="checkbox" name="incomoda" value="Espaço mal aproveitado"> Espaço mal aproveitado</label>
+                        <label class="checkbox-option"><input type="checkbox" name="incomoda" value="Falta de sombra"> Falta de sombra</label>
+                        <label class="checkbox-option"><input type="checkbox" name="incomoda" value="Plantas que não prosperam"> Plantas que não prosperam</label>
+                        <label class="checkbox-option"><input type="checkbox" name="incomoda" value="Drenagem ruim"> Drenagem ruim</label>
+                        <label class="checkbox-option"><input type="checkbox" name="incomoda" value="Insetos/pragas"> Insetos/pragas</label>
+                        <label class="checkbox-option"><input type="checkbox" name="incomoda" value="Falta de cor"> Falta de cor</label>
+                        <label class="checkbox-option"><input type="checkbox" name="incomoda" value="Visual desorganizado"> Visual desorganizado</label>
+                        <label class="checkbox-option"><input type="checkbox" name="incomoda" value="Outros"> Outros</label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="descricao_incomoda">Descreva com mais detalhes o que te incomoda:</label>
+                    <textarea id="descricao_incomoda" name="descricao_incomoda" placeholder="Ex.: O jardim atual tem muitas plantas que dão muito trabalho e não trazem alegria..."></textarea>
+                </div>
+            </section>
+            
+            <!-- Seção 5: Referências -->
+            <section class="form-section">
+                <h2>Suas Referências</h2>
+                
+                <div class="form-group">
+                    <label for="referencias">Tem fotos, links do Pinterest ou outros projetos que você admira?</label>
+                    <textarea id="referencias" name="referencias" placeholder="Cole links ou descreva referências que gostaria de compartilhar"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="sonho_jardim">Se você pudesse ter qualquer coisa no seu jardim, sem limitações, o que seria?</label>
+                    <textarea id="sonho_jardim" name="sonho_jardim" placeholder="Descreva seu jardim dos sonhos..."></textarea>
+                </div>
+            </section>
+            
+            <button type="button" class="btn-submit" onclick="sendToWhatsApp()">
+                Enviar Meu Sonho 
+            </button>
+        </form>
+    </div>
+
+    <script>
+        // Função para seleção múltipla de imagens
+        function toggleImageSelection(element, fieldName) {
+            element.classList.toggle('selected');
+            
+            const container = element.parentElement;
+            const selectedImages = container.querySelectorAll('.image-option.selected');
+            const hiddenField = document.getElementById(fieldName);
+            
+            let selectedValues = [];
+            selectedImages.forEach(img => {
+                const label = img.querySelector('.image-label').textContent;
+                selectedValues.push(label);
+            });
+            
+            hiddenField.value = selectedValues.join(', ');
+        }
+        
+        // Máscara para telefone
+        document.getElementById('telefone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 11) value = value.substring(0, 11);
+            
+            // Formata como (XX) XXXXX-XXXX
+            if (value.length > 2) {
+                value = `(${value.substring(0,2)}) ${value.substring(2)}`;
+                if (value.length > 10) {
+                    value = `${value.substring(0,10)}-${value.substring(10)}`;
+                }
+            }
+            e.target.value = value;
+        });
+        
+        // Função para enviar para WhatsApp
+        function sendToWhatsApp() {
+            const form = document.getElementById('briefingForm');
+            const requiredFields = form.querySelectorAll('[required]');
+            let isValid = true;
+            
+            // Valida campos obrigatórios
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.style.borderColor = '#e74c3c';
+                    isValid = false;
+                    
+                    // Scroll para o primeiro campo inválido
+                    if (isValid === false) {
+                        field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        isValid = null; // Para não repetir o scroll
+                    }
+                } else {
+                    field.style.borderColor = '#ddd';
+                }
+            });
+            
+            if (!isValid) {
+                alert('Por favor, preencha todos os campos obrigatórios marcados com *');
+                return;
+            }
+            
+            // Coleta todos os dados do formulário
+            const formData = new FormData(form);
+            let message = "🌸 *MEU JARDIM DOS SONHOS* 🌿\n\n";
+            
+            // Seção 1: Dados Pessoais
+            message += `*👤 MEUS DADOS*\n`;
+            message += `Nome: ${formData.get('nome')}\n`;
+            message += `Telefone: ${formData.get('telefone')}\n`;
+            if (formData.get('endereco')) message += `Endereço: ${formData.get('endereco')}\n\n`;
+            
+            // Seção 2: Estilo que Ama
+            message += `*💖 ESTILO QUE EU AMO*\n`;
+            if (formData.get('estilo_gosta')) message += `Estilos selecionados: ${formData.get('estilo_gosta')}\n`;
+            if (formData.get('descricao_estilo')) message += `Descrição:\n${formData.get('descricao_estilo')}\n\n`;
+            
+            // Seção 3: Elementos que Agradam
+            const elementosGosta = [];
+            form.querySelectorAll('input[name="elementos_gosta"]:checked').forEach(el => {
+                elementosGosta.push(el.value);
+            });
+            
+            if (elementosGosta.length > 0 || formData.get('outros_elementos_gosta')) {
+                message += `*✨ ELEMENTOS QUE ME TRAZEM ALEGRIA*\n`;
+                if (elementosGosta.length > 0) message += `${elementosGosta.join(', ')}\n`;
+                if (formData.get('outros_elementos_gosta')) message += `Outros:\n${formData.get('outros_elementos_gosta')}\n\n`;
+            }
+            
+            // Seção 4: Problemas e Desafios
+            message += `*⚠️ O QUE NÃO ESTÁ FUNCIONANDO*\n`;
+            if (formData.get('problemas_atual')) message += `Problemas:\n${formData.get('problemas_atual')}\n`;
+            
+            const incomodas = [];
+            form.querySelectorAll('input[name="incomoda"]:checked').forEach(el => {
+                incomodas.push(el.value);
+            });
+            if (incomodas.length > 0) message += `Me incomoda: ${incomodas.join(', ')}\n`;
+            if (formData.get('descricao_incomoda')) message += `Detalhes:\n${formData.get('descricao_incomoda')}\n\n`;
+            
+            // Seção 5: Referências
+            if (formData.get('referencias') || formData.get('sonho_jardim')) {
+                message += `*📌 MINHAS REFERÊNCIAS E SONHOS*\n`;
+                if (formData.get('referencias')) message += `Referências:\n${formData.get('referencias')}\n`;
+                if (formData.get('sonho_jardim')) message += `Meu jardim dos sonhos:\n${formData.get('sonho_jardim')}\n`;
+            }
+            
+            // Adiciona data
+            message += `\n📅 _Formulário preenchido em ${new Date().toLocaleDateString('pt-BR')}_`;
+            
+            // Codifica a mensagem para URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // SUBSTITUA SEU_NUMERO pelo seu WhatsApp no formato 5511999999999 (sem espaços ou caracteres especiais)
+            const whatsappUrl = `https://wa.me/5596991208893?text=${encodedMessage}`;
+            
+            // Abre o WhatsApp
+            window.open(whatsappUrl, '_blank');
+            
+            // Feedback para o usuário
+            alert('Obrigado por compartilhar seu sonho de jardim! Vamos analisar suas preferências e entraremos em contato em breve.');
+        }
+    </script>
+</body>
+</html>    
